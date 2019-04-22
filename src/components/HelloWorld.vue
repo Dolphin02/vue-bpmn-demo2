@@ -4,11 +4,17 @@
     <div id="js-properties-panel" class="panel"></div>
     <ul class="buttons">
       <li>下载</li>
-      <li>
-        <a ref="saveDiagram" href="javascript:" title="download BPMN diagram">BPMN diagram</a>
+      <!--<li>-->
+        <!--<a ref="saveDiagram" href="javascript:" title="download BPMN diagram">BPMN diagram</a>-->
+      <!--</li>-->
+      <!--<li>-->
+        <!--<a ref="saveSvg" href="javascript:" title="download as SVG image">SVG image</a>-->
+      <!--</li>-->
+      <li style="width: 40px">
+        <a ref="saveDiagram" href="javascript:" title="download BPMN diagram" ><i class="el-icon-download" style="width: 40px"/></a>
       </li>
-      <li>
-        <a ref="saveSvg" href="javascript:" title="download as SVG image">SVG image</a>
+      <li >
+        <a ref="saveSvg" href="javascript:" title="download as SVG image"><i class="el-icon-picture" style="width: 40px"/></a>
       </li>
     </ul>
   </div>
@@ -128,7 +134,8 @@ export default {
 
 <style lang="scss">
   /*左边工具栏以及编辑节点的样式*/
-  @import 'bpmn-js/dist/assets/diagram-js.css';
+  /*@import 'bpmn-js/dist/assets/diagram-js.css';*/
+  @import "bpmn-js/dist/assets/diagram-js.css";
   @import 'bpmn-js/dist/assets/bpmn-font/css/bpmn.css';
   @import 'bpmn-js/dist/assets/bpmn-font/css/bpmn-codes.css';
   @import 'bpmn-js/dist/assets/bpmn-font/css/bpmn-embedded.css';
