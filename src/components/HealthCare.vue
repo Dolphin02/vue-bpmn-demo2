@@ -1,56 +1,57 @@
 <template>
   <el-container style="border: 1px solid #eee">
     <el-aside width="17%" style="">
-      <el-menu :default-openeds="['2', '3']">
-        <el-submenu index="2">
-          <template slot="title"><i class="el-icon-menu"></i>服务列表</template>
-          <el-submenu index="2-1">
-            <template slot="title" >个人信息</template>
-            <el-menu-item index="2-1-1" class="baseMuse">信息授权</el-menu-item>
-            <el-menu-item index="2-1-2" class="baseMuse">年龄信息</el-menu-item>
-          </el-submenu>
-          <el-submenu index="2-2">
-            <template slot="title" >医疗信息</template>
-            <el-menu-item index="2-2-1" class="baseMuse">体验报告</el-menu-item>
-            <el-menu-item index="2-2-2" class="baseMuse">病历本</el-menu-item>
-          </el-submenu>
-          <el-submenu index="2-3">
-            <template slot="title" >天气服务</template>
-            <el-menu-item index="2-3-1" class="baseMuse">信息授权</el-menu-item>
-            <el-menu-item index="2-3-2" class="baseMuse">年龄信息</el-menu-item>
-          </el-submenu>
-          <el-submenu index="2-4">
-            <template slot="title">交通服务</template>
-            <div >
-              <el-menu-item index="2-4-1" class="baseMuse">高铁查询</el-menu-item>
-              <el-menu-item index="2-4-2" class="baseMuse">飞机查询</el-menu-item>
-              <el-menu-item index="2-4-3" class="baseMuse">汽车查询</el-menu-item>
-            </div>
-          </el-submenu>
-          <!--<el-menu-item-group>-->
-            <!--<el-menu-item index="2-3">选项3</el-menu-item>-->
-            <!--<el-menu-item index="2-3">选项3</el-menu-item>-->
-          <!--</el-menu-item-group>-->
-          <el-submenu index="2-5">
-            <template slot="title">其他服务</template>
-            <el-menu-item index="2-5-1" class="baseMuse">选项4-1</el-menu-item>
+      <el-menu :default-openeds="['1', '3']">
+        <el-submenu index="1">
+          <template slot="title"><i class="el-icon-message"></i>导航一</template>
+          <el-menu-item-group>
+            <template slot="title">分组一</template>
+            <el-menu-item index="1-1">选项1</el-menu-item>
+            <el-menu-item index="1-2">选项2</el-menu-item>
+          </el-menu-item-group>
+          <el-menu-item-group title="分组2">
+            <el-menu-item index="1-3">选项3
+
+
+            </el-menu-item>
+          </el-menu-item-group>
+          <el-submenu index="1-4">
+            <template slot="title">选项4</template>
+            <el-menu-item index="1-4-1" style="align: right">
+              <el-select></el-select>
+            </el-menu-item>
           </el-submenu>
         </el-submenu>
-        <!--<el-submenu index="3">-->
-          <!--<template slot="title"><i class="el-icon-setting"></i>导航三</template>-->
-          <!--<el-menu-item-group>-->
-            <!--<template slot="title">分组一</template>-->
-            <!--<el-menu-item index="3-1">选项1</el-menu-item>-->
-            <!--<el-menu-item index="3-2">选项2</el-menu-item>-->
-          <!--</el-menu-item-group>-->
-          <!--<el-menu-item-group title="分组2">-->
-            <!--<el-menu-item index="3-3">选项3</el-menu-item>-->
-          <!--</el-menu-item-group>-->
-          <!--<el-submenu index="3-4">-->
-            <!--<template slot="title">选项4</template>-->
-            <!--<el-menu-item index="3-4-1">选项4-1</el-menu-item>-->
-          <!--</el-submenu>-->
-        <!--</el-submenu>-->
+        <el-submenu index="2">
+          <template slot="title"><i class="el-icon-menu"></i>导航二</template>
+          <el-menu-item-group>
+            <template slot="title">分组一</template>
+            <el-menu-item index="2-1">选项1</el-menu-item>
+            <el-menu-item index="2-2">选项2</el-menu-item>
+          </el-menu-item-group>
+          <el-menu-item-group title="分组2">
+            <el-menu-item index="2-3">选项3</el-menu-item>
+          </el-menu-item-group>
+          <el-submenu index="2-4">
+            <template slot="title">选项4</template>
+            <el-menu-item index="2-4-1">选项4-1</el-menu-item>
+          </el-submenu>
+        </el-submenu>
+        <el-submenu index="3">
+          <template slot="title"><i class="el-icon-setting"></i>导航三</template>
+          <el-menu-item-group>
+            <template slot="title">分组一</template>
+            <el-menu-item index="3-1">选项1</el-menu-item>
+            <el-menu-item index="3-2">选项2</el-menu-item>
+          </el-menu-item-group>
+          <el-menu-item-group title="分组2">
+            <el-menu-item index="3-3">选项3</el-menu-item>
+          </el-menu-item-group>
+          <el-submenu index="3-4">
+            <template slot="title">选项4</template>
+            <el-menu-item index="3-4-1">选项4-1</el-menu-item>
+          </el-submenu>
+        </el-submenu>
       </el-menu>
     </el-aside>
 
@@ -58,31 +59,31 @@
     <el-main width="20%" style="">
       <div class="containers" ref="content">
         <div class="">
-          <!--<el-select></el-select>-->
-          <!--<el-upload-->
-            <!--class="upload-demo"-->
-            <!--action="http://localhost:8011/fileUpload"-->
-            <!--:on-preview="handlePreview"-->
-            <!--:on-remove="handleRemove"-->
-            <!--:before-remove="beforeRemove"-->
-            <!--:on-exceed="handleExceed"-->
-            <!--:on-progress="handleFile"-->
-            <!--:file-list="fileList">-->
-            <!--<el-button size="small" type="primary">上传文件</el-button>-->
-            <!--&lt;!&ndash;<div slot="tip" class="el-upload__tip">只能上传word/pdf文件，且不超过5Mb</div>&ndash;&gt;-->
-          <!--</el-upload>-->
+          <el-select></el-select>
+          <el-upload
+            class="upload-demo"
+            action="http://localhost:8011/fileUpload"
+            :on-preview="handlePreview"
+            :on-remove="handleRemove"
+            :before-remove="beforeRemove"
+            :on-exceed="handleExceed"
+            :on-progress="handleFile"
+            :file-list="fileList">
+            <el-button size="small" type="primary">上传文件</el-button>
+            <!--<div slot="tip" class="el-upload__tip">只能上传word/pdf文件，且不超过5Mb</div>-->
+          </el-upload>
         </div>
         <div class="canvas" ref="canvas" style=" " draggable="false"></div>
         <div id="js-properties-panel" class="panel" draggable="false"></div>
-        <!--<ul class="buttons">-->
-          <!--<li>download</li>-->
-          <!--<li style="width: 40px">-->
-            <!--<a ref="saveDiagram" href="javascript:" title="download BPMN diagram" ><i class="el-icon-download" style="width: 40px"/></a>-->
-          <!--</li>-->
-          <!--<li >-->
-            <!--<a ref="saveSvg" href="javascript:" title="download as SVG image"><i class="el-icon-picture" style="width: 40px"/></a>-->
-          <!--</li>-->
-        <!--</ul>-->
+        <ul class="buttons">
+          <li>download</li>
+          <li style="width: 40px">
+            <a ref="saveDiagram" href="javascript:" title="download BPMN diagram" ><i class="el-icon-download" style="width: 40px"/></a>
+          </li>
+          <li >
+            <a ref="saveSvg" href="javascript:" title="download as SVG image"><i class="el-icon-picture" style="width: 40px"/></a>
+          </li>
+        </ul>
       </div>
     </el-main>
     </el-container>
@@ -195,12 +196,12 @@ export default {
         '      <bpmn:outgoing>SequenceFlow_0nrfbee</bpmn:outgoing>\n' +
         '      <bpmn:outgoing>SequenceFlow_1wpxb98</bpmn:outgoing>\n' +
         '    </bpmn:startEvent>\n' +
-        '    <bpmn:task id="Task_0ho18x0" name="个人信息">\n' +
+        '    <bpmn:task id="Task_0ho18x0" name="hello">\n' +
         '      <bpmn:incoming>SequenceFlow_0nrfbee</bpmn:incoming>\n' +
         '      <bpmn:incoming>SequenceFlow_1wpxb98</bpmn:incoming>\n' +
         '      <bpmn:outgoing>SequenceFlow_00ho26x</bpmn:outgoing>\n' +
         '    </bpmn:task>\n' +
-        '    <bpmn:task id="Task_1ymuvem" name="医疗信息">\n' +
+        '    <bpmn:task id="Task_1ymuvem" name="world">\n' +
         '      <bpmn:incoming>SequenceFlow_00ho26x</bpmn:incoming>\n' +
         '      <bpmn:outgoing>SequenceFlow_18df8vb</bpmn:outgoing>\n' +
         '    </bpmn:task>\n' +
@@ -325,7 +326,7 @@ export default {
         // 左边工具栏以及节点
         propertiesProviderModule,
         // 右边的工具栏
-        // propertiesPanelModule
+        propertiesPanelModule
       ],
       moddleExtensions: {
         camunda: camundaModdleDescriptor
@@ -377,10 +378,6 @@ export default {
     right: 0;
     top: 0;
     width: 20%;
-  }
-  .baseMuse{
-    font-size: 12px;
-    color: #4d4d4d;
   }
   .buttons{
     position: absolute;
