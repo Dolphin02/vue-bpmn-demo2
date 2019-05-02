@@ -17,10 +17,10 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: -10px;
-  margin-left: -10px;
+  margin-top: 7px;
+  margin-left: 4px;
   padding: 0;
-  border: 1px solid red;
+  border: 1px solid #eeeeee;
 
 }
 </style>

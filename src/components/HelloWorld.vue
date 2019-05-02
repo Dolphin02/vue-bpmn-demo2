@@ -1,23 +1,88 @@
 <template>
-  <div class="containers" ref="content">
-    <div class="canvas" ref="canvas"></div>
-    <div id="js-properties-panel" class="panel"></div>
-    <ul class="buttons">
-      <li>下载</li>
-      <!--<li>-->
-        <!--<a ref="saveDiagram" href="javascript:" title="download BPMN diagram">BPMN diagram</a>-->
-      <!--</li>-->
-      <!--<li>-->
-        <!--<a ref="saveSvg" href="javascript:" title="download as SVG image">SVG image</a>-->
-      <!--</li>-->
-      <li style="width: 40px">
-        <a ref="saveDiagram" href="javascript:" title="download BPMN diagram" ><i class="el-icon-download" style="width: 40px"/></a>
-      </li>
-      <li >
-        <a ref="saveSvg" href="javascript:" title="download as SVG image"><i class="el-icon-picture" style="width: 40px"/></a>
-      </li>
-    </ul>
-  </div>
+  <el-container style="border: 1px solid #eee">
+    <el-aside width="17%" style="">
+      <el-menu :default-openeds="['1', '3']">
+        <el-submenu index="1">
+          <template slot="title"><i class="el-icon-message"></i>导航一</template>
+          <el-menu-item-group>
+            <template slot="title">分组一</template>
+            <el-menu-item index="1-1">选项1</el-menu-item>
+            <el-menu-item index="1-2">选项2</el-menu-item>
+          </el-menu-item-group>
+          <el-menu-item-group title="分组2">
+            <el-menu-item index="1-3">选项3</el-menu-item>
+          </el-menu-item-group>
+          <el-submenu index="1-4">
+            <template slot="title">选项4</template>
+            <el-menu-item index="1-4-1">选项4-1</el-menu-item>
+          </el-submenu>
+        </el-submenu>
+        <el-submenu index="2">
+          <template slot="title"><i class="el-icon-menu"></i>导航二</template>
+          <el-menu-item-group>
+            <template slot="title">分组一</template>
+            <el-menu-item index="2-1">选项1</el-menu-item>
+            <el-menu-item index="2-2">选项2</el-menu-item>
+          </el-menu-item-group>
+          <el-menu-item-group title="分组2">
+            <el-menu-item index="2-3">选项3</el-menu-item>
+          </el-menu-item-group>
+          <el-submenu index="2-4">
+            <template slot="title">选项4</template>
+            <el-menu-item index="2-4-1">选项4-1</el-menu-item>
+          </el-submenu>
+        </el-submenu>
+        <el-submenu index="3">
+          <template slot="title"><i class="el-icon-setting"></i>导航三</template>
+          <el-menu-item-group>
+            <template slot="title">分组一</template>
+            <el-menu-item index="3-1">选项1</el-menu-item>
+            <el-menu-item index="3-2">选项2</el-menu-item>
+          </el-menu-item-group>
+          <el-menu-item-group title="分组2">
+            <el-menu-item index="3-3">选项3</el-menu-item>
+          </el-menu-item-group>
+          <el-submenu index="3-4">
+            <template slot="title">选项4</template>
+            <el-menu-item index="3-4-1">选项4-1</el-menu-item>
+          </el-submenu>
+        </el-submenu>
+      </el-menu>
+    </el-aside>
+
+    <el-container>
+    <el-main width="20%" style="">
+      <div class="containers" ref="content">
+        <div class="">
+          <el-select></el-select>
+          <el-upload
+            class="upload-demo"
+            action="http://localhost:8011/fileUpload"
+            :on-preview="handlePreview"
+            :on-remove="handleRemove"
+            :before-remove="beforeRemove"
+            :on-exceed="handleExceed"
+            :on-progress="handleFile"
+            :file-list="fileList">
+            <el-button size="small" type="primary">上传文件</el-button>
+            <!--<div slot="tip" class="el-upload__tip">只能上传word/pdf文件，且不超过5Mb</div>-->
+          </el-upload>
+        </div>
+        <div class="canvas" ref="canvas" style=" " draggable="false"></div>
+        <div id="js-properties-panel" class="panel" draggable="false"></div>
+        <ul class="buttons">
+          <li>download</li>
+          <li style="width: 40px">
+            <a ref="saveDiagram" href="javascript:" title="download BPMN diagram" ><i class="el-icon-download" style="width: 40px"/></a>
+          </li>
+          <li >
+            <a ref="saveSvg" href="javascript:" title="download as SVG image"><i class="el-icon-picture" style="width: 40px"/></a>
+          </li>
+        </ul>
+      </div>
+    </el-main>
+    </el-container>
+  </el-container>
 </template>
 
 <script>
@@ -41,19 +106,156 @@ export default {
   },
   methods: {
     createNewDiagram () {
+      // const bpmnXmlStr = '<?xml version="1.0" encoding="UTF-8"?>\n' +
+      //   '<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd" id="sample-diagram" targetNamespace="http://bpmn.io/schema/bpmn">\n' +
+      //   '  <bpmn2:process id="Process_1" isExecutable="false">\n' +
+      //   '    <bpmn2:startEvent id="StartEvent_1"/>\n' +
+      //   '  </bpmn2:process>\n' +
+      //   '  <bpmndi:BPMNDiagram id="BPMNDiagram_1">\n' +
+      //   '    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">\n' +
+      //   '      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">\n' +
+      //   '        <dc:Bounds height="36.0" width="36.0" x="412.0" y="240.0"/>\n' +
+      //   '      </bpmndi:BPMNShape>\n' +
+      //   '    </bpmndi:BPMNPlane>\n' +
+      //   '  </bpmndi:BPMNDiagram>\n' +
+      //   '</bpmn2:definitions>'
+
+
+      // const bpmnXmlStr = '<?xml version="1.0" encoding="UTF-8"?>\n' +
+      //   '<bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_0fppxr8" targetNamespace="http://bpmn.io/schema/bpmn">\n' +
+      //   '  <bpmn:process id="Process_1" isExecutable="false">\n' +
+      //   '    <bpmn:startEvent id="StartEvent_1" name="begin;">\n' +
+      //   '      <bpmn:outgoing>SequenceFlow_0nrfbee</bpmn:outgoing>\n' +
+      //   '    </bpmn:startEvent>\n' +
+      //   '    <bpmn:task id="Task_0ho18x0" name="hello">\n' +
+      //   '      <bpmn:incoming>SequenceFlow_0nrfbee</bpmn:incoming>\n' +
+      //   '      <bpmn:outgoing>SequenceFlow_00ho26x</bpmn:outgoing>\n' +
+      //   '    </bpmn:task>\n' +
+      //   '    <bpmn:task id="Task_1ymuvem" name="world">\n' +
+      //   '      <bpmn:incoming>SequenceFlow_00ho26x</bpmn:incoming>\n' +
+      //   '      <bpmn:outgoing>SequenceFlow_18df8vb</bpmn:outgoing>\n' +
+      //   '    </bpmn:task>\n' +
+      //   '    <bpmn:endEvent id="EndEvent_1c0ed2n" name="end">\n' +
+      //   '      <bpmn:incoming>SequenceFlow_18df8vb</bpmn:incoming>\n' +
+      //   '    </bpmn:endEvent>\n' +
+      //   '    <bpmn:sequenceFlow id="SequenceFlow_0nrfbee" sourceRef="StartEventF_1" targetRef="Task_0ho18x0" />\n' +
+      //   '    <bpmn:sequenceFlow id="SequenceFlow_00ho26x" sourceRef="Task_0ho18x0" targetRef="Task_1ymuvem" />\n' +
+      //   '    <bpmn:sequenceFlow id="SequenceFlow_18df8vb" sourceRef="Task_1ymuvem" targetRef="EndEvent_1c0ed2n" />\n' +
+      //   '  </bpmn:process>\n' +
+      //   '  <bpmndi:BPMNDiagram id="BPMNDiagram_1">\n' +
+      //   '    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">\n' +
+      //   '      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">\n' +
+      //   '        <dc:Bounds x="173" y="102" width="36" height="36" />\n' +
+      //   '        <bpmndi:BPMNLabel>\n' +
+      //   '          <dc:Bounds x="178" y="145" width="27" height="27" />\n' +
+      //   '        </bpmndi:BPMNLabel>\n' +
+      //   '      </bpmndi:BPMNShape>\n' +
+      //   '      <bpmndi:BPMNShape id="Task_0ho18x0_di" bpmnElement="Task_0ho18x0">\n' +
+      //   '        <dc:Bounds x="485" y="244" width="100" height="80" />\n' +
+      //   '      </bpmndi:BPMNShape>\n' +
+      //   '      <bpmndi:BPMNShape id="Task_1ymuvem_di" bpmnElement="Task_1ymuvem">\n' +
+      //   '        <dc:Bounds x="712" y="391" width="100" height="80" />\n' +
+      //   '      </bpmndi:BPMNShape>\n' +
+      //   '      <bpmndi:BPMNShape id="EndEvent_1c0ed2n_di" bpmnElement="EndEvent_1c0ed2n">\n' +
+      //   '        <dc:Bounds x="1056" y="568" width="36" height="36" />\n' +
+      //   '        <bpmndi:BPMNLabel>\n' +
+      //   '          <dc:Bounds x="1065" y="611" width="19" height="14" />\n' +
+      //   '        </bpmndi:BPMNLabel>\n' +
+      //   '      </bpmndi:BPMNShape>\n' +
+      //   '      <bpmndi:BPMNEdge id="SequenceFlow_0nrfbee_di" bpmnElement="SequenceFlow_0nrfbee">\n' +
+      //   '        <di:waypoint x="209" y="120" />\n' +
+      //   '        <di:waypoint x="347" y="120" />\n' +
+      //   '        <di:waypoint x="347" y="284" />\n' +
+      //   '        <di:waypoint x="485" y="284" />\n' +
+      //   '      </bpmndi:BPMNEdge>\n' +
+      //   '      <bpmndi:BPMNEdge id="SequenceFlow_00ho26x_di" bpmnElement="SequenceFlow_00ho26x">\n' +
+      //   '        <di:waypoint x="585" y="284" />\n' +
+      //   '        <di:waypoint x="649" y="284" />\n' +
+      //   '        <di:waypoint x="649" y="431" />\n' +
+      //   '        <di:waypoint x="712" y="431" />\n' +
+      //   '      </bpmndi:BPMNEdge>\n' +
+      //   '      <bpmndi:BPMNEdge id="SequenceFlow_18df8vb_di" bpmnElement="SequenceFlow_18df8vb">\n' +
+      //   '        <di:waypoint x="812" y="431" />\n' +
+      //   '        <di:waypoint x="934" y="431" />\n' +
+      //   '        <di:waypoint x="934" y="586" />\n' +
+      //   '        <di:waypoint x="1056" y="586" />\n' +
+      //   '      </bpmndi:BPMNEdge>\n' +
+      //   '    </bpmndi:BPMNPlane>\n' +
+      //   '  </bpmndi:BPMNDiagram>\n' +
+      //   '</bpmn:definitions>\n'
+
       const bpmnXmlStr = '<?xml version="1.0" encoding="UTF-8"?>\n' +
-        '<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd" id="sample-diagram" targetNamespace="http://bpmn.io/schema/bpmn">\n' +
-        '  <bpmn2:process id="Process_1" isExecutable="false">\n' +
-        '    <bpmn2:startEvent id="StartEvent_1"/>\n' +
-        '  </bpmn2:process>\n' +
+        '<bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_0fppxr8" targetNamespace="http://bpmn.io/schema/bpmn">\n' +
+        '  <bpmn:process id="Process_1" isExecutable="false">\n' +
+        '    <bpmn:startEvent id="StartEvent_1" name="begin;">\n' +
+        '      <bpmn:outgoing>SequenceFlow_0nrfbee</bpmn:outgoing>\n' +
+        '      <bpmn:outgoing>SequenceFlow_1wpxb98</bpmn:outgoing>\n' +
+        '    </bpmn:startEvent>\n' +
+        '    <bpmn:task id="Task_0ho18x0" name="hello">\n' +
+        '      <bpmn:incoming>SequenceFlow_0nrfbee</bpmn:incoming>\n' +
+        '      <bpmn:incoming>SequenceFlow_1wpxb98</bpmn:incoming>\n' +
+        '      <bpmn:outgoing>SequenceFlow_00ho26x</bpmn:outgoing>\n' +
+        '    </bpmn:task>\n' +
+        '    <bpmn:task id="Task_1ymuvem" name="world">\n' +
+        '      <bpmn:incoming>SequenceFlow_00ho26x</bpmn:incoming>\n' +
+        '      <bpmn:outgoing>SequenceFlow_18df8vb</bpmn:outgoing>\n' +
+        '    </bpmn:task>\n' +
+        '    <bpmn:endEvent id="EndEvent_1c0ed2n" name="end">\n' +
+        '      <bpmn:incoming>SequenceFlow_18df8vb</bpmn:incoming>\n' +
+        '    </bpmn:endEvent>\n' +
+        '    <bpmn:sequenceFlow id="SequenceFlow_0nrfbee" targetRef="Task_0ho18x0" />\n' +
+        '    <bpmn:sequenceFlow id="SequenceFlow_00ho26x" sourceRef="Task_0ho18x0" targetRef="Task_1ymuvem" />\n' +
+        '    <bpmn:sequenceFlow id="SequenceFlow_18df8vb" sourceRef="Task_1ymuvem" targetRef="EndEvent_1c0ed2n" />\n' +
+        '    <bpmn:sequenceFlow id="SequenceFlow_1wpxb98" sourceRef="StartEvent_1" targetRef="Task_0ho18x0" />\n' +
+        '  </bpmn:process>\n' +
         '  <bpmndi:BPMNDiagram id="BPMNDiagram_1">\n' +
         '    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">\n' +
         '      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">\n' +
-        '        <dc:Bounds height="36.0" width="36.0" x="412.0" y="240.0"/>\n' +
+        '        <dc:Bounds x="173" y="102" width="36" height="36" />\n' +
+        '        <bpmndi:BPMNLabel>\n' +
+        '          <dc:Bounds x="178" y="145" width="27" height="27" />\n' +
+        '        </bpmndi:BPMNLabel>\n' +
         '      </bpmndi:BPMNShape>\n' +
+        '      <bpmndi:BPMNShape id="Task_0ho18x0_di" bpmnElement="Task_0ho18x0">\n' +
+        '        <dc:Bounds x="485" y="244" width="100" height="80" />\n' +
+        '      </bpmndi:BPMNShape>\n' +
+        '      <bpmndi:BPMNShape id="Task_1ymuvem_di" bpmnElement="Task_1ymuvem">\n' +
+        '        <dc:Bounds x="712" y="391" width="100" height="80" />\n' +
+        '      </bpmndi:BPMNShape>\n' +
+        '      <bpmndi:BPMNShape id="EndEvent_1c0ed2n_di" bpmnElement="EndEvent_1c0ed2n">\n' +
+        '        <dc:Bounds x="1056" y="568" width="36" height="36" />\n' +
+        '        <bpmndi:BPMNLabel>\n' +
+        '          <dc:Bounds x="1065" y="611" width="19" height="14" />\n' +
+        '        </bpmndi:BPMNLabel>\n' +
+        '      </bpmndi:BPMNShape>\n' +
+        '      <bpmndi:BPMNEdge id="SequenceFlow_0nrfbee_di" bpmnElement="SequenceFlow_0nrfbee">\n' +
+        '        <di:waypoint x="209" y="120" />\n' +
+        '        <di:waypoint x="347" y="120" />\n' +
+        '        <di:waypoint x="347" y="284" />\n' +
+        '        <di:waypoint x="485" y="284" />\n' +
+        '      </bpmndi:BPMNEdge>\n' +
+        '      <bpmndi:BPMNEdge id="SequenceFlow_00ho26x_di" bpmnElement="SequenceFlow_00ho26x">\n' +
+        '        <di:waypoint x="585" y="284" />\n' +
+        '        <di:waypoint x="649" y="284" />\n' +
+        '        <di:waypoint x="649" y="431" />\n' +
+        '        <di:waypoint x="712" y="431" />\n' +
+        '      </bpmndi:BPMNEdge>\n' +
+        '      <bpmndi:BPMNEdge id="SequenceFlow_18df8vb_di" bpmnElement="SequenceFlow_18df8vb">\n' +
+        '        <di:waypoint x="812" y="431" />\n' +
+        '        <di:waypoint x="934" y="431" />\n' +
+        '        <di:waypoint x="934" y="586" />\n' +
+        '        <di:waypoint x="1056" y="586" />\n' +
+        '      </bpmndi:BPMNEdge>\n' +
+        '      <bpmndi:BPMNEdge id="SequenceFlow_1wpxb98_di" bpmnElement="SequenceFlow_1wpxb98">\n' +
+        '        <di:waypoint x="209" y="120" />\n' +
+        '        <di:waypoint x="347" y="120" />\n' +
+        '        <di:waypoint x="347" y="284" />\n' +
+        '        <di:waypoint x="485" y="284" />\n' +
+        '      </bpmndi:BPMNEdge>\n' +
         '    </bpmndi:BPMNPlane>\n' +
         '  </bpmndi:BPMNDiagram>\n' +
-        '</bpmn2:definitions>'
+        '</bpmn:definitions>\n'
+
       // 将字符串转换成图显示出来
       this.bpmnModeler.importXML(bpmnXmlStr, function (err) {
         if (err) {
@@ -61,6 +263,21 @@ export default {
         }
       })
     },
+
+    //从外界导入XML
+    importXML(bpmnXmlStr) {
+      // 将字符串转换成图显示出来
+      this.bpmnModeler.importXML(bpmnXmlStr, function (err) {
+        if (err) {
+          console.error('could not import BPMN 2.0 diagram', err)
+        }
+        var canvas = bpmnModeler.get('canvas');
+
+        // zoom to fit full viewport
+        canvas.zoom('fit-viewport');
+      })
+    },
+
     // 下载为SVG格式,done是个函数，调用的时候传入的
     saveSVG (done) {
       // 把传入的done再传给bpmn原型的saveSVG函数调用
@@ -144,18 +361,18 @@ export default {
   .containers{
     position: absolute;
     background-color: #ffffff;
-    width: 100%;
+    width: 80%;
     height: 90%;
   }
   .canvas{
-    width: 100%;
+    padding: 0;
     height: 100%;
   }
   .panel{
     position: absolute;
     right: 0;
     top: 0;
-    width: 300px;
+    width: 20%;
   }
   .buttons{
     position: absolute;

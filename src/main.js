@@ -5,6 +5,8 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import App from './App'
 import router from './router'
+import iView from 'iview';
+// import locale from 'iview/dist/locale/en-US';
 
 Vue.use(ElementUI)
 Vue.config.productionTip = false
