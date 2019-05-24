@@ -6,15 +6,19 @@ import 'element-ui/lib/theme-chalk/index.css'
 import App from './App'
 import router from './router'
 import iView from 'iview';
+import store from './vuex/store'
+import 'iview/dist/styles/iview.css';
 // import locale from 'iview/dist/locale/en-US';
 
 Vue.use(ElementUI)
+Vue.use(iView)
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
+  store,
   components: { App },
   template: '<App/>'
 })

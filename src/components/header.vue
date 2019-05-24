@@ -11,7 +11,7 @@
         <!--</el-menu-item>-->
       <!--</el-menu>-->
       <!--<el-input v-model="inputText" placeholder="请输入内容 " clearable="true">-->
-        <!--<el-button slot="append" @click="setAuthor" ></el-button>-->
+        <!--<el-button slot="append" @click="setBpmnXmlStr" ></el-button>-->
       <!--</el-input>-->
     </div>
 </template>
@@ -29,9 +29,9 @@
           }
         },
         methods: {
-          setAuthor: function () {
-            this.$store.state.author = this.inputText
-            // this.$store.state.commit('newAuthor', this.inputText)
+          setBpmnXmlStr: function () {
+            this.$store.state.bpmnXmlStr = this.inputText
+            // this.$store.state.commit('newBpmnXmlStr', this.inputText)
           }
         }
     }

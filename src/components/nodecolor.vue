@@ -1,169 +1,152 @@
-<!--<template>-->
-  <!--<div class="containers" ref="content">-->
-    <!--<div class="canvas" ref="canvas"></div>-->
-    <!--<el-button class="back" type="primary" @click="back">返回列表</el-button>-->
-    <!--<el-dialog-->
-      <!--:title="nodeName"-->
-      <!--:visible.sync="dialogVisible"-->
-      <!--:show-close="true"-->
-      <!--width="30%"-->
-      <!--size="large">-->
-      <!--<flow-view :nodeName="nodeName" :nodeCode="nodeCode" :nodeId="dialog_id"-->
-                 <!--:confBaseId="dialog_confBaseId" :modelId="modelId"></flow-view>-->
-    <!--</el-dialog>-->
-    <!--&lt;!&ndash;<div id="js-properties-panel" class="panel"></div>&ndash;&gt;-->
-  <!--</div>-->
-<!--</template>-->
+<template>
+  <div class="containers" ref="content">
+    <div class="canvas" ref="canvas"></div>
+    <div id="js-properties-panel" class="panel"></div>
+  </div>
+</template>
 
-<!--<script>-->
-  <!--import flowView from '../../components/flow/FlowsView.vue'-->
-  <!--import {getBpmnXml, saveBpmnData, getNodeData} from '../../api/modeler'-->
-  <!--export default {-->
-    <!--name: 'nodecolor',-->
-    <!--components: {-->
-      <!--flowView-->
-    <!--},-->
-    <!--data(){-->
-      <!--return {-->
-        <!--id: "",-->
-        <!--bpmnModeler: null,-->
-        <!--container: null,-->
-        <!--canvas: null,-->
-        <!--xmlStr: null,-->
-        <!--// 点击节点获取的数据-->
-        <!--nodeCode: "",-->
-        <!--nodeName: "",-->
-        <!--// 弹窗相关的数据-->
-        <!--dialogVisible: false,-->
-        <!--dialog_id: "",-->
-        <!--dialog_confBaseId: ''-->
-      <!--}-->
-    <!--},-->
-    <!--methods:{-->
-      <!--createNewDiagram() {-->
-        <!--const that = this;-->
-        <!--let params = {-->
-          <!--id: this.id-->
-        <!--};-->
-        <!--getBpmnXml(params).then(res => {-->
-          <!--const bpmnXmlStr = res.obj;-->
-<!--//          console.log(bpmnXmlStr)-->
-          <!--this.bpmnModeler.importXML(bpmnXmlStr, function (err) {-->
-            <!--if (err) {-->
-              <!--console.error(err);-->
-            <!--}-->
-            <!--that.success()-->
-            <!--const canvas = that.bpmnModeler.get('canvas');-->
-            <!--canvas.zoom('fit-viewport');-->
-            <!--// 就是在这里写死了-->
-            <!--const nodeCodes = ['StartEvent_1','Task_0qg0mca','Task_0307aue'];-->
-            <!--const colorClass = 'nodeSuccess';-->
-            <!--that.setNodeColor(nodeCodes, colorClass, canvas);-->
+<script>
+  // 引入相关的依赖
+  // import BpmnViewer from 'bpmn-js'
+  import BpmnModeler from 'bpmn-js/lib/Modeler'
+  import propertiesPanelModule from 'bpmn-js-properties-panel'
+  import propertiesProviderModule from 'bpmn-js-properties-panel/lib/provider/camunda'
+  import camundaModdleDescriptor from 'camunda-bpmn-moddle/resources/camunda'
 
-            <!--const nodeCodes2 = ['SequenceFlow_1u5gq9e','SequenceFlow_1n5pril'];-->
-            <!--const colorClass2 = 'lineSuccess';-->
-            <!--that.setNodeColor(nodeCodes2, colorClass2, canvas);-->
-          <!--});-->
-        <!--})-->
-      <!--},-->
+  export default {
+    data () {
+      return {
+        // bpmn建模器
+        bpmnModeler: null,
+        container: null,
+        canvas: null
+      }
+    },
+    methods: {
+      createNewDiagram () {
+        const bpmnXmlStr = '<?xml version="1.0" encoding="UTF-8"?>\n' +
+          '<bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_0fppxr8" targetNamespace="http://bpmn.io/schema/bpmn">\n' +
+          '  <bpmn:process id="Process_1" isExecutable="false">\n' +
+          '    <bpmn:startEvent id="StartEvent_1" name="begin&#10;">\n' +
+          '      <bpmn:outgoing>SequenceFlow_0nrfbee</bpmn:outgoing>\n' +
+          '    </bpmn:startEvent>\n' +
+          '    <bpmn:task id="Task_0ho18x0" name="hello&#10;">\n' +
+          '      <bpmn:incoming>SequenceFlow_0nrfbee</bpmn:incoming>\n' +
+          '      <bpmn:outgoing>SequenceFlow_00ho26x</bpmn:outgoing>\n' +
+          '    </bpmn:task>\n' +
+          '    <bpmn:task id="Task_1ymuvem" name="world">\n' +
+          '      <bpmn:incoming>SequenceFlow_00ho26x</bpmn:incoming>\n' +
+          '      <bpmn:outgoing>SequenceFlow_18df8vb</bpmn:outgoing>\n' +
+          '    </bpmn:task>\n' +
+          '    <bpmn:endEvent id="EndEvent_1c0ed2n" name="end">\n' +
+          '      <bpmn:incoming>SequenceFlow_18df8vb</bpmn:incoming>\n' +
+          '    </bpmn:endEvent>\n' +
+          '    <bpmn:sequenceFlow id="SequenceFlow_0nrfbee" sourceRef="StartEvent_1" targetRef="Task_0ho18x0" />\n' +
+          '    <bpmn:sequenceFlow id="SequenceFlow_00ho26x" sourceRef="Task_0ho18x0" targetRef="Task_1ymuvem" />\n' +
+          '    <bpmn:sequenceFlow id="SequenceFlow_18df8vb" sourceRef="Task_1ymuvem" targetRef="EndEvent_1c0ed2n" />\n' +
+          '  </bpmn:process>\n' +
+          '  <bpmndi:BPMNDiagram id="BPMNDiagram_1">\n' +
+          '    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">\n' +
+          '      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">\n' +
+          '        <dc:Bounds x="173" y="102" width="36" height="36" />\n' +
+          '        <bpmndi:BPMNLabel>\n' +
+          '          <dc:Bounds x="178" y="145" width="27" height="27" />\n' +
+          '        </bpmndi:BPMNLabel>\n' +
+          '      </bpmndi:BPMNShape>\n' +
+          '      <bpmndi:BPMNShape id="Task_0ho18x0_di" bpmnElement="Task_0ho18x0">\n' +
+          '        <dc:Bounds x="485" y="244" width="100" height="80" />\n' +
+          '      </bpmndi:BPMNShape>\n' +
+          '      <bpmndi:BPMNShape id="Task_1ymuvem_di" bpmnElement="Task_1ymuvem">\n' +
+          '        <dc:Bounds x="712" y="391" width="100" height="80" />\n' +
+          '      </bpmndi:BPMNShape>\n' +
+          '      <bpmndi:BPMNShape id="EndEvent_1c0ed2n_di" bpmnElement="EndEvent_1c0ed2n">\n' +
+          '        <dc:Bounds x="1056" y="568" width="36" height="36" />\n' +
+          '        <bpmndi:BPMNLabel>\n' +
+          '          <dc:Bounds x="1065" y="611" width="19" height="14" />\n' +
+          '        </bpmndi:BPMNLabel>\n' +
+          '      </bpmndi:BPMNShape>\n' +
+          '      <bpmndi:BPMNEdge id="SequenceFlow_0nrfbee_di" bpmnElement="SequenceFlow_0nrfbee">\n' +
+          '        <di:waypoint x="209" y="120" />\n' +
+          '        <di:waypoint x="347" y="120" />\n' +
+          '        <di:waypoint x="347" y="284" />\n' +
+          '        <di:waypoint x="485" y="284" />\n' +
+          '      </bpmndi:BPMNEdge>\n' +
+          '      <bpmndi:BPMNEdge id="SequenceFlow_00ho26x_di" bpmnElement="SequenceFlow_00ho26x">\n' +
+          '        <di:waypoint x="585" y="284" />\n' +
+          '        <di:waypoint x="649" y="284" />\n' +
+          '        <di:waypoint x="649" y="431" />\n' +
+          '        <di:waypoint x="712" y="431" />\n' +
+          '      </bpmndi:BPMNEdge>\n' +
+          '      <bpmndi:BPMNEdge id="SequenceFlow_18df8vb_di" bpmnElement="SequenceFlow_18df8vb">\n' +
+          '        <di:waypoint x="812" y="431" />\n' +
+          '        <di:waypoint x="934" y="431" />\n' +
+          '        <di:waypoint x="934" y="586" />\n' +
+          '        <di:waypoint x="1056" y="586" />\n' +
+          '      </bpmndi:BPMNEdge>\n' +
+          '    </bpmndi:BPMNPlane>\n' +
+          '  </bpmndi:BPMNDiagram>\n' +
+          '</bpmn:definitions>\n'
+        // 将字符串转换成图显示出来
+        this.bpmnModeler.importXML(bpmnXmlStr, function (err) {
+          if (err) {
+            console.error(err)
+          } else {
+            // 这里还没用到这个，先注释掉吧
+            // that.success()
+          }
+        })
+      }
+    },
+    mounted () {
+      // 获取到属性ref为“content”的dom节点
+      this.container = this.$refs.content
+      // 获取到属性ref为“canvas”的dom节点
+      const canvas = this.$refs.canvas
 
-      <!--// 返回表格页面-->
-      <!--back() {-->
-        <!--const data = false;-->
-        <!--this.$emit("closeEdit", data);-->
-      <!--},-->
+      // 建模，官方文档这里讲的很详细
+      this.bpmnModeler = new BpmnModeler({
+        container: canvas,
+        // 添加控制板
+        propertiesPanel: {
+          parent: '#js-properties-panel'
+        },
+        additionalModules: [
+          // 左边工具栏以及节点
+          propertiesProviderModule,
+          // 右边的工具栏
+          propertiesPanelModule
+        ],
+        moddleExtensions: {
+          camunda: camundaModdleDescriptor
+        }
+      })
+      this.createNewDiagram(this.bpmnModeler)
+    }
+  }
+</script>
 
-
-      <!--success() {-->
-        <!--const bpmnjs = this.bpmnModeler;-->
-        <!--const eventBus = bpmnjs.get('eventBus');-->
-        <!--const elementFactory = bpmnjs.get('elementFactory');-->
-<!--//        viewer没有这两个 所以不传了-->
-<!--//        const commandStack = bpmnjs.get('commandStack');-->
-<!--//        const bpmnRules = bpmnjs.get('bpmnRules');-->
-        <!--const Modeling = require('bpmn-js/lib/features/modeling/Modeling')-->
-        <!--const commandStack = require('diagram-js/lib/command/index');-->
-        <!--const bpmnRules = require('bpmn-js/lib/features/rules/index');-->
-        <!--const modeling = new Modeling(eventBus,elementFactory,commandStack,bpmnRules);-->
-<!--//        this.setLineColor('Task_0307aue','RED', this, modeling);-->
-        <!--this.addBpmnListener(this, modeling);-->
-      <!--},-->
-      <!--// 给节点添加监听时间(点击)-->
-      <!--addBpmnListener(_self,modeling) {-->
-        <!--const bpmnjs = this.bpmnModeler;-->
-        <!--const eventBus = bpmnjs.get('eventBus');-->
-        <!--const events = [-->
-          <!--'element.click',-->
-          <!--'element.dblclick'-->
-        <!--];-->
-        <!--events.forEach(function(event) {-->
-          <!--eventBus.on(event, function(e) {-->
-            <!--//bpmn:Lane bpmn:SequenceFlow bpmn:Task bpmn:SequenceFlow bpmn:ExclusiveGateway-->
-            <!--//bpmn:Process-->
-            <!--//console.log(event + '   ' + JSON.stringify(e.element));-->
-            <!--if(e.element.type === 'bpmn:Process' || e.element.type === 'bpmn:Lane')-->
-              <!--return;-->
-
-            <!--//debugger;-->
-            <!--const   elementRegistry = bpmnjs.get('elementRegistry');-->
-            <!--const shape = elementRegistry.get(e.element.id);-->
-<!--//            console.log(shape)-->
-<!--//            modeling.setColor(shape,{ stroke:'RED' });-->
-<!--//            _self.nodeCode=e.element.id;-->
-            <!--_self.nodeCode = shape.businessObject.id;-->
-<!--//            console.log(_self.nodeCode)-->
-            <!--_self.nodeName = shape.businessObject.name;-->
-            <!--_self.getDialogId()-->
-          <!--});-->
-        <!--});-->
-      <!--},-->
-      <!--// 给已经走过的流程添加颜色-->
-      <!--setNodeColor(nodeCodes, colorClass, canvas){-->
-        <!--for(let i = 0; i < nodeCodes.length; i++) {-->
-          <!--canvas.addMarker(nodeCodes[i], colorClass);-->
-        <!--}-->
-
-      <!--},-->
-
-      <!--// 获取给弹窗的id-->
-      <!--getDialogId(){-->
-        <!--const that = this;-->
-        <!--const params = {-->
-          <!--nodeCode: this.nodeCode,-->
-          <!--modelId: this.modelId-->
-        <!--};-->
-        <!--getNodeData(params).then(res => {-->
-          <!--that.dialog_id = res.obj.id;-->
-          <!--that.dialog_confBaseId = res.obj.confBaseId;-->
-          <!--that.dialogVisible = true;-->
-        <!--})-->
-      <!--}-->
-
-    <!--},-->
-    <!--mounted(){-->
-      <!--this.id = this.bpmnId;-->
-      <!--var BpmnModeler = require('bpmn-js');-->
-      <!--this.container = this.$refs.content;-->
-
-      <!--var canvas = this.$refs.canvas;-->
-      <!--this.bpmnModeler = new BpmnModeler({-->
-        <!--container: canvas,-->
-<!--//-->
-<!--//        // 添加右边属性控制板-->
-<!--//        propertiesPanel: {-->
-<!--//          parent: '#js-properties-panel'-->
-<!--//        },-->
-
-      <!--});-->
-      <!--this.createNewDiagram(this.bpmnModeler);-->
-    <!--},-->
-    <!--props: [-->
-      <!--"bpmnId",-->
-      <!--"modelId"-->
-    <!--]-->
-  <!--}-->
-<!--</script>-->
-
-<!--<style scoped>-->
-
-<!--</style>-->
+<style lang="scss">
+  /*左边工具栏以及编辑节点的样式*/
+  @import 'bpmn-js/dist/assets/diagram-js.css';
+  @import 'bpmn-js/dist/assets/bpmn-font/css/bpmn.css';
+  @import 'bpmn-js/dist/assets/bpmn-font/css/bpmn-codes.css';
+  @import 'bpmn-js/dist/assets/bpmn-font/css/bpmn-embedded.css';
+  /*右边工具栏样式*/
+  @import 'bpmn-js-properties-panel/dist/assets/bpmn-js-properties-panel.css';
+  .containers{
+    position: absolute;
+    background-color: #ffffff;
+    width: 100%;
+    height: 100%;
+  }
+  .canvas{
+    width: 100%;
+    height: 100%;
+  }
+  .panel{
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 300px;
+  }
+</style>

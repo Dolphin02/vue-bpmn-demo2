@@ -3,9 +3,10 @@
     <!--<ul>-->
       <!--<li v-for="lis in ul">{{lis.li}}</li>-->
     <!--</ul>-->
-    <p>
-      Copyright&nbsp;&copy;&nbsp;{{author}} - 2019 All rights reserved
-    </p>
+    <!--<p>-->
+      <!--Copyright&nbsp;&copy;&nbsp;{{bpmnXmlStr}} - 2019 All rights reserved-->
+    <!--</p>-->
+    <p>2018-2020 &copy; Healthy</p>
   </div>
 </template>
 
@@ -26,7 +27,7 @@
     },
     // computed: {
     //   author () {
-    //     return this.$store.state.author
+    //     return this.$store.state.bpmnXmlStr
     //   }
     // }
   }
@@ -37,7 +38,8 @@
     position: absolute;
     left: 0;
     bottom: 0;
-    align: center;
+    /*align: center;*/
     width: 100%;
+    text-align: center;
   }
 </style>

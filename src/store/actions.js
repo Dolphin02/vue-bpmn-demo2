@@ -5,6 +5,9 @@ export function modifyAName({commit}, name) { // commit 提交；name即为点�
 export function modifyBName({commit}, name) {
   return commit ('modifyBName', name)
 }
+export function modifyPanel({commit}, str) {
+  return commit ('modifyPanel', str)
+}
 
 // ES6精简写法
 // export const modifyAName = ({commit},name) => commit('modifyAName', name)

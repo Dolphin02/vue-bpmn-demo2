@@ -1,102 +1,60 @@
 <!--suppress ALL -->
 <template>
-  <el-container style="border: 1px solid #eee">
-    <el-aside width="17%" style="">
-      <el-header style="background-color: #4682B4;font-weight: bolder;font-color:white;font-size: 18px;padding-top: 17px">跨界养老服务平台</el-header>
-      <el-menu :default-openeds="['1', '3']">
-        <el-submenu index="1">
-          <template slot="title"><i class="el-icon-menu"></i>服务列表</template>
-          <el-submenu index="1-1-1">
-            <template slot="title">个人信息</template>
-            <el-menu-item index="1-1-1-1" class="baseMuse">基本信息</el-menu-item>
-            <el-menu-item index="1-1-1-2" class="baseMuse">微信授权</el-menu-item>
-            <el-menu-item index="1-1-1-3" class="baseMuse">支付宝授权</el-menu-item>
-          </el-submenu>
-          <el-submenu index="1-1-2">
-            <template slot="title">医疗服务</template>
-            <el-menu-item index="1-1-2-1" class="baseMuse">挂号服务</el-menu-item>
-            <el-menu-item index="1-1-2-2" class="baseMuse">预约医生</el-menu-item>
-            <el-menu-item index="1-1-2-3" class="baseMuse">体检服务</el-menu-item>
-          </el-submenu>
-          <el-submenu index="1-1-3">
-            <template slot="title">健康服务</template>
-            <el-menu-item index="1-1-3-1" class="baseMuse">科学养生</el-menu-item>
-            <el-menu-item index="1-1-3-2" class="baseMuse">营养搭配</el-menu-item>
-          </el-submenu>
-          <el-submenu index="1-1-4">
-            <template slot="title">交通服务</template>
-            <el-menu-item index="1-1-3-1" class="baseMuse">公交查询</el-menu-item>
-            <el-menu-item index="1-1-3-2" class="baseMuse">地铁查询</el-menu-item>
-            <el-menu-item index="1-1-3-3" class="baseMuse">出租车查询</el-menu-item>
-            <el-menu-item index="1-1-3-4" class="baseMuse">自行车查询</el-menu-item>
-            <el-menu-item index="1-1-3-5" class="baseMuse">高铁查询</el-menu-item>
-            <el-menu-item index="1-1-3-6" class="baseMuse">飞机查询</el-menu-item>
-          </el-submenu>
-        </el-submenu>
-        <el-submenu index="3">
-          <template slot="title"><i class="el-icon-setting"></i>其他服务</template>
-          <el-menu-item-group>
-            <template slot="title">分组一</template>
-            <el-menu-item index="3-1">选项1</el-menu-item>
-            <el-menu-item index="3-2">选项2</el-menu-item>
-          </el-menu-item-group>
-          <el-menu-item-group title="分组2">
-            <el-menu-item index="3-3">选项3</el-menu-item>
-          </el-menu-item-group>
-          <el-submenu index="3-4">
-            <template slot="title">选项4</template>
-            <el-menu-item index="3-4-1">选项4-1</el-menu-item>
-          </el-submenu>
-        </el-submenu>
-      </el-menu>
-    </el-aside>
+  <div class="layout">
+    <Header>
+      <Menu mode="horizontal" theme="dark" active-name="1" @on-select="turnToPage">
+        <!--<div class="layout-logo">跨界养老服务平台</div>-->
+        <div class="layout-nav">
+          <MenuItem name="1">
+            <Icon type="ios-navigate"></Icon>
+            主页
+          </MenuItem>
+          <MenuItem name="2">
+            <Icon type="ios-keypad"></Icon>
+            配置页
+          </MenuItem>
+          <!--<MenuItem name="3">-->
+            <!--<Icon type="ios-analytics"></Icon>-->
+            <!--Item 3-->
+          <!--</MenuItem>-->
+          <!--<MenuItem name="4">-->
+            <!--<Icon type="ios-paper"></Icon>-->
+            <!--Item 4-->
+          <!--</MenuItem>-->
+        </div>
+      </Menu>
+    </Header>
+    <Layout>
+      <!--<Layout :style="{padding: '0 50px'}">-->
+      <!--<Content :style="{padding: '24px 0', minHeight: '580px', background: '#fff'}">-->
+        <!--<Layout>-->
+          <!--<Content :style="{padding: '24px', minHeight: '570px', background: '#fff'}">-->
+            <!--<div class="containers" ref="content" style="height: 570px">-->
+              <!--<div class="canvas" ref="canvas" style="width: 80%; height: 440px;"></div>-->
+      <Content :style="{padding: '24px 0', minHeight: '570px', background: '#fff'}">
+        <Layout>
+          <Content :style="{padding: '24px', minHeight: '970px', background: '#fff'}">
+            <div class="containers" ref="content" >
+              <div class="canvas" ref="canvas" style="width: 80%;"></div>
+              <div id="js-properties-panel" class="panel"></div>
+              <ul class="buttons">
+                <li>download</li>
+                <li style="width: 40px">
+                  <a ref="saveDiagram" href="javascript:" title="download BPMN diagram" ><i class="el-icon-download" style="width: 40px"/></a>
+                </li>
+                <li >
+                  <a ref="saveSvg" href="javascript:" title="download as SVG image"><i class="el-icon-picture" style="width: 40px"/></a>
+                </li>
+              </ul>
+            </div>
+          </Content>
 
-    <el-container>
-      <el-header style="padding-left: 3px;padding-right: 0px">
-        <el-menu
-          :default-active="activeIndex2"
-          class="el-menu-demo"
-          mode="horizontal"
-          @select="handleSelect"
-          background-color="#4682B4"
-          text-color="#fff"
-          style="margin-left: 0px"
-          active-text-color="#ffd04b">
-          <el-menu-item index="1" style="font-size: 18px;font-weight: bolder">L2编排</el-menu-item>
-          <!--<el-submenu index="2">-->
-            <!--<template slot="title">我的工作台</template>-->
-            <!--<el-menu-item index="2-1">选项1</el-menu-item>-->
-            <!--<el-menu-item index="2-2">选项2</el-menu-item>-->
-            <!--<el-menu-item index="2-3">选项3</el-menu-item>-->
-            <!--<el-submenu index="2-4">-->
-              <!--<template slot="title">选项4</template>-->
-              <!--<el-menu-item index="2-4-1">选项1</el-menu-item>-->
-              <!--<el-menu-item index="2-4-2">选项2</el-menu-item>-->
-              <!--<el-menu-item index="2-4-3">选项3</el-menu-item>-->
-            <!--</el-submenu>-->
-          <!--</el-submenu>-->
-          <!--<el-menu-item index="3" disabled>消息中心</el-menu-item>-->
-          <!--<el-menu-item index="4"><a href="https://www.ele.me" target="_blank">订单管理</a></el-menu-item>-->
-        </el-menu>
-      </el-header>
+        </Layout>
 
-      <el-main>
-      <div class="containers" ref="content">
-        <div class="canvas" ref="canvas" style="width: 80%" draggable="false"></div>
-        <div id="js-properties-panel" class="panel" draggable="false" style="width: 20%;align:left;padding-right: 20px"></div>
-        <ul class="buttons">
-          <li>download</li>
-          <li style="width: 40px">
-            <a ref="saveDiagram" href="javascript:" title="download BPMN diagram" ><i class="el-icon-download" style="width: 40px"/></a>
-          </li>
-          <li >
-            <a ref="saveSvg" href="javascript:" title="download as SVG image"><i class="el-icon-picture" style="width: 40px"/></a>
-          </li>
-        </ul>
-      </div>
-    </el-main>
-    </el-container>
-  </el-container>
+      </Content>
+      <Footer class="layout-footer-center" height="40px">2018-2020 &copy; Healthy</Footer>
+    </Layout>
+  </div>
 </template>
 
 <script>
@@ -116,73 +74,76 @@ export default {
       canvas: null,
       xmlStr: null,
       processName: '',
-      // constbpmnXmlStr = '<?xml version="1.0" encoding="UTF-8"?>\n' +
+      headerHref : {
+        1: "",
+        2: "health",
+        3: "config"
+      },
+      // bpmnXmlStr: '<?xml version="1.0" encoding="UTF-8"?>\n' +
       //   '<bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_0fppxr8" targetNamespace="http://bpmn.io/schema/bpmn">\n' +
       //   '  <bpmn:process id="Process_1" isExecutable="false">\n' +
-      //   '    <bpmn:startEvent id="StartEvent_1" name="begin;">\n' +
-      //   '      <bpmn:outgoing>SequenceFlow_0nrfbee</bpmn:outgoing>\n' +
-      //   '      <bpmn:outgoing>SequenceFlow_1wpxb98</bpmn:outgoing>\n' +
-      //   '    </bpmn:startEvent>\n' +
-      //   '    <bpmn:task id="Task_0ho18x0" name="hello">\n' +
-      //   '      <bpmn:incoming>SequenceFlow_0nrfbee</bpmn:incoming>\n' +
-      //   '      <bpmn:incoming>SequenceFlow_1wpxb98</bpmn:incoming>\n' +
-      //   '      <bpmn:outgoing>SequenceFlow_00ho26x</bpmn:outgoing>\n' +
-      //   '    </bpmn:task>\n' +
-      //   '    <bpmn:task id="Task_1ymuvem" name="world">\n' +
-      //   '      <bpmn:incoming>SequenceFlow_00ho26x</bpmn:incoming>\n' +
-      //   '      <bpmn:outgoing>SequenceFlow_18df8vb</bpmn:outgoing>\n' +
-      //   '    </bpmn:task>\n' +
-      //   '    <bpmn:endEvent id="EndEvent_1c0ed2n" name="end">\n' +
-      //   '      <bpmn:incoming>SequenceFlow_18df8vb</bpmn:incoming>\n' +
-      //   '    </bpmn:endEvent>\n' +
       //   '    <bpmn:sequenceFlow id="SequenceFlow_0nrfbee" targetRef="Task_0ho18x0" />\n' +
-      //   '    <bpmn:sequenceFlow id="SequenceFlow_00ho26x" sourceRef="Task_0ho18x0" targetRef="Task_1ymuvem" />\n' +
-      //   '    <bpmn:sequenceFlow id="SequenceFlow_18df8vb" sourceRef="Task_1ymuvem" targetRef="EndEvent_1c0ed2n" />\n' +
-      //   '    <bpmn:sequenceFlow id="SequenceFlow_1wpxb98" sourceRef="StartEvent_1" targetRef="Task_0ho18x0" />\n' +
+      //   '    <bpmn:startEvent id="StartEvent_0aw7fqm">\n' +
+      //   '      <bpmn:outgoing>SequenceFlow_0wqjqvq</bpmn:outgoing>\n' +
+      //   '    </bpmn:startEvent>\n' +
+      //   '    <bpmn:sequenceFlow id="SequenceFlow_0wqjqvq" sourceRef="StartEvent_0aw7fqm" targetRef="Task_0abzf3j" />\n' +
+      //   '    <bpmn:intermediateThrowEvent id="IntermediateThrowEvent_1nh6gvk">\n' +
+      //   '      <bpmn:incoming>SequenceFlow_1d2bl1g</bpmn:incoming>\n' +
+      //   '    </bpmn:intermediateThrowEvent>\n' +
+      //   '    <bpmn:subProcess id="Task_0abzf3j" name="个人信息">\n' +
+      //   '      <bpmn:incoming>SequenceFlow_0wqjqvq</bpmn:incoming>\n' +
+      //   '      <bpmn:outgoing>SequenceFlow_1xdmyls</bpmn:outgoing>\n' +
+      //   '    </bpmn:subProcess>\n' +
+      //   '    <bpmn:subProcess id="Task_0x9ax7u" name="医疗服务">\n' +
+      //   '      <bpmn:incoming>SequenceFlow_1voiina</bpmn:incoming>\n' +
+      //   '      <bpmn:outgoing>SequenceFlow_1d2bl1g</bpmn:outgoing>\n' +
+      //   '    </bpmn:subProcess>\n' +
+      //   '    <bpmn:exclusiveGateway id="ExclusiveGateway_126k0j8">\n' +
+      //   '      <bpmn:incoming>SequenceFlow_1xdmyls</bpmn:incoming>\n' +
+      //   '      <bpmn:outgoing>SequenceFlow_1voiina</bpmn:outgoing>\n' +
+      //   '    </bpmn:exclusiveGateway>\n' +
+      //   '    <bpmn:sequenceFlow id="SequenceFlow_1xdmyls" sourceRef="Task_0abzf3j" targetRef="ExclusiveGateway_126k0j8" />\n' +
+      //   '    <bpmn:sequenceFlow id="SequenceFlow_1voiina" sourceRef="ExclusiveGateway_126k0j8" targetRef="Task_0x9ax7u" />\n' +
+      //   '    <bpmn:sequenceFlow id="SequenceFlow_1d2bl1g" sourceRef="Task_0x9ax7u" targetRef="IntermediateThrowEvent_1nh6gvk" />\n' +
       //   '  </bpmn:process>\n' +
       //   '  <bpmndi:BPMNDiagram id="BPMNDiagram_1">\n' +
       //   '    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">\n' +
-      //   '      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">\n' +
-      //   '        <dc:Bounds x="173" y="102" width="36" height="36" />\n' +
-      //   '        <bpmndi:BPMNLabel>\n' +
-      //   '          <dc:Bounds x="178" y="145" width="27" height="27" />\n' +
-      //   '        </bpmndi:BPMNLabel>\n' +
-      //   '      </bpmndi:BPMNShape>\n' +
-      //   '      <bpmndi:BPMNShape id="Task_0ho18x0_di" bpmnElement="Task_0ho18x0">\n' +
-      //   '        <dc:Bounds x="485" y="244" width="100" height="80" />\n' +
-      //   '      </bpmndi:BPMNShape>\n' +
-      //   '      <bpmndi:BPMNShape id="Task_1ymuvem_di" bpmnElement="Task_1ymuvem">\n' +
-      //   '        <dc:Bounds x="712" y="391" width="100" height="80" />\n' +
-      //   '      </bpmndi:BPMNShape>\n' +
-      //   '      <bpmndi:BPMNShape id="EndEvent_1c0ed2n_di" bpmnElement="EndEvent_1c0ed2n">\n' +
-      //   '        <dc:Bounds x="1056" y="568" width="36" height="36" />\n' +
-      //   '        <bpmndi:BPMNLabel>\n' +
-      //   '          <dc:Bounds x="1065" y="611" width="19" height="14" />\n' +
-      //   '        </bpmndi:BPMNLabel>\n' +
-      //   '      </bpmndi:BPMNShape>\n' +
       //   '      <bpmndi:BPMNEdge id="SequenceFlow_0nrfbee_di" bpmnElement="SequenceFlow_0nrfbee">\n' +
       //   '        <di:waypoint x="209" y="120" />\n' +
       //   '        <di:waypoint x="347" y="120" />\n' +
       //   '        <di:waypoint x="347" y="284" />\n' +
       //   '        <di:waypoint x="485" y="284" />\n' +
       //   '      </bpmndi:BPMNEdge>\n' +
-      //   '      <bpmndi:BPMNEdge id="SequenceFlow_00ho26x_di" bpmnElement="SequenceFlow_00ho26x">\n' +
-      //   '        <di:waypoint x="585" y="284" />\n' +
-      //   '        <di:waypoint x="649" y="284" />\n' +
-      //   '        <di:waypoint x="649" y="431" />\n' +
-      //   '        <di:waypoint x="712" y="431" />\n' +
+      //   '      <bpmndi:BPMNShape id="StartEvent_0aw7fqm_di" bpmnElement="StartEvent_0aw7fqm">\n' +
+      //   '        <dc:Bounds x="239" y="155" width="36" height="36" />\n' +
+      //   '      </bpmndi:BPMNShape>\n' +
+      //   '      <bpmndi:BPMNEdge id="SequenceFlow_0wqjqvq_di" bpmnElement="SequenceFlow_0wqjqvq">\n' +
+      //   '        <di:waypoint x="275" y="173" />\n' +
+      //   '        <di:waypoint x="325" y="173" />\n' +
       //   '      </bpmndi:BPMNEdge>\n' +
-      //   '      <bpmndi:BPMNEdge id="SequenceFlow_18df8vb_di" bpmnElement="SequenceFlow_18df8vb">\n' +
-      //   '        <di:waypoint x="812" y="431" />\n' +
-      //   '        <di:waypoint x="934" y="431" />\n' +
-      //   '        <di:waypoint x="934" y="586" />\n' +
-      //   '        <di:waypoint x="1056" y="586" />\n' +
+      //   '      <bpmndi:BPMNShape id="IntermediateThrowEvent_1nh6gvk_di" bpmnElement="IntermediateThrowEvent_1nh6gvk">\n' +
+      //   '        <dc:Bounds x="782" y="155" width="36" height="36" />\n' +
+      //   '      </bpmndi:BPMNShape>\n' +
+      //   '      <bpmndi:BPMNShape id="SubProcess_0fzzktz_di" bpmnElement="Task_0abzf3j">\n' +
+      //   '        <dc:Bounds x="325" y="133" width="100" height="80" />\n' +
+      //   '      </bpmndi:BPMNShape>\n' +
+      //   '      <bpmndi:BPMNShape id="SubProcess_003urof_di" bpmnElement="Task_0x9ax7u">\n' +
+      //   '        <dc:Bounds x="610" y="133" width="100" height="80" />\n' +
+      //   '      </bpmndi:BPMNShape>\n' +
+      //   '      <bpmndi:BPMNShape id="ExclusiveGateway_126k0j8_di" bpmnElement="ExclusiveGateway_126k0j8" isMarkerVisible="true">\n' +
+      //   '        <dc:Bounds x="491" y="148" width="50" height="50" />\n' +
+      //   '      </bpmndi:BPMNShape>\n' +
+      //   '      <bpmndi:BPMNEdge id="SequenceFlow_1xdmyls_di" bpmnElement="SequenceFlow_1xdmyls">\n' +
+      //   '        <di:waypoint x="425" y="173" />\n' +
+      //   '        <di:waypoint x="491" y="173" />\n' +
       //   '      </bpmndi:BPMNEdge>\n' +
-      //   '      <bpmndi:BPMNEdge id="SequenceFlow_1wpxb98_di" bpmnElement="SequenceFlow_1wpxb98">\n' +
-      //   '        <di:waypoint x="209" y="120" />\n' +
-      //   '        <di:waypoint x="347" y="120" />\n' +
-      //   '        <di:waypoint x="347" y="284" />\n' +
-      //   '        <di:waypoint x="485" y="284" />\n' +
+      //   '      <bpmndi:BPMNEdge id="SequenceFlow_1voiina_di" bpmnElement="SequenceFlow_1voiina">\n' +
+      //   '        <di:waypoint x="541" y="173" />\n' +
+      //   '        <di:waypoint x="610" y="173" />\n' +
+      //   '      </bpmndi:BPMNEdge>\n' +
+      //   '      <bpmndi:BPMNEdge id="SequenceFlow_1d2bl1g_di" bpmnElement="SequenceFlow_1d2bl1g">\n' +
+      //   '        <di:waypoint x="710" y="173" />\n' +
+      //   '        <di:waypoint x="782" y="173" />\n' +
       //   '      </bpmndi:BPMNEdge>\n' +
       //   '    </bpmndi:BPMNPlane>\n' +
       //   '  </bpmndi:BPMNDiagram>\n' +
@@ -190,76 +151,25 @@ export default {
     }
   },
   methods: {
+    turnToPage (route) {
+      let { name, params, query } = {}
+      if (typeof route === 'string') name = route
+      else {
+        console.log(route)
+        name = route.name
+        params = route.params
+        query = route.query
+      }
+      if (route in this.headerHref){
+        name = this.headerHref[route];
+      }
+      this.$router.push('/'+name)
+    },
     createNewDiagram () {
       let self = this
-      const bpmnXmlStr = '<?xml version="1.0" encoding="UTF-8"?>\n' +
-        '<bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_0fppxr8" targetNamespace="http://bpmn.io/schema/bpmn">\n' +
-        '  <bpmn:process id="Process_1" isExecutable="false">\n' +
-        '    <bpmn:startEvent id="StartEvent_1" name="begin;">\n' +
-        '      <bpmn:outgoing>SequenceFlow_0nrfbee</bpmn:outgoing>\n' +
-        '      <bpmn:outgoing>SequenceFlow_1wpxb98</bpmn:outgoing>\n' +
-        '    </bpmn:startEvent>\n' +
-        '    <bpmn:task id="Task_0ho18x0" name="个人信息">\n' +
-        '      <bpmn:incoming>SequenceFlow_0nrfbee</bpmn:incoming>\n' +
-        '      <bpmn:incoming>SequenceFlow_1wpxb98</bpmn:incoming>\n' +
-        '      <bpmn:outgoing>SequenceFlow_00ho26x</bpmn:outgoing>\n' +
-        '    </bpmn:task>\n' +
-        '    <bpmn:task id="Task_1ymuvem" name="医疗服务">\n' +
-        '      <bpmn:incoming>SequenceFlow_00ho26x</bpmn:incoming>\n' +
-        '      <bpmn:outgoing>SequenceFlow_18df8vb</bpmn:outgoing>\n' +
-        '    </bpmn:task>\n' +
-        '    <bpmn:endEvent id="EndEvent_1c0ed2n" name="end">\n' +
-        '      <bpmn:incoming>SequenceFlow_18df8vb</bpmn:incoming>\n' +
-        '    </bpmn:endEvent>\n' +
-        '    <bpmn:sequenceFlow id="SequenceFlow_0nrfbee" targetRef="Task_0ho18x0" />\n' +
-        '    <bpmn:sequenceFlow id="SequenceFlow_00ho26x" sourceRef="Task_0ho18x0" targetRef="Task_1ymuvem" />\n' +
-        '    <bpmn:sequenceFlow id="SequenceFlow_18df8vb" sourceRef="Task_1ymuvem" targetRef="EndEvent_1c0ed2n" />\n' +
-        '    <bpmn:sequenceFlow id="SequenceFlow_1wpxb98" sourceRef="StartEvent_1" targetRef="Task_0ho18x0" />\n' +
-        '  </bpmn:process>\n' +
-        '  <bpmndi:BPMNDiagram id="BPMNDiagram_1">\n' +
-        '    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">\n' +
-        '      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">\n' +
-        '        <dc:Bounds x="178" y="266" width="36" height="36" />\n' +
-        '        <bpmndi:BPMNLabel>\n' +
-        '          <dc:Bounds x="182" y="309" width="30" height="14" />\n' +
-        '        </bpmndi:BPMNLabel>\n' +
-        '      </bpmndi:BPMNShape>\n' +
-        '      <bpmndi:BPMNShape id="Task_0ho18x0_di" bpmnElement="Task_0ho18x0">\n' +
-        '        <dc:Bounds x="302" y="244" width="100" height="80" />\n' +
-        '      </bpmndi:BPMNShape>\n' +
-        '      <bpmndi:BPMNShape id="Task_1ymuvem_di" bpmnElement="Task_1ymuvem">\n' +
-        '        <dc:Bounds x="516" y="244" width="100" height="80" />\n' +
-        '      </bpmndi:BPMNShape>\n' +
-        '      <bpmndi:BPMNShape id="EndEvent_1c0ed2n_di" bpmnElement="EndEvent_1c0ed2n">\n' +
-        '        <dc:Bounds x="732" y="266" width="36" height="36" />\n' +
-        '        <bpmndi:BPMNLabel>\n' +
-        '          <dc:Bounds x="741" y="309" width="19" height="14" />\n' +
-        '        </bpmndi:BPMNLabel>\n' +
-        '      </bpmndi:BPMNShape>\n' +
-        '      <bpmndi:BPMNEdge id="SequenceFlow_0nrfbee_di" bpmnElement="SequenceFlow_0nrfbee">\n' +
-        '        <di:waypoint x="209" y="120" />\n' +
-        '        <di:waypoint x="347" y="120" />\n' +
-        '        <di:waypoint x="347" y="284" />\n' +
-        '        <di:waypoint x="485" y="284" />\n' +
-        '      </bpmndi:BPMNEdge>\n' +
-        '      <bpmndi:BPMNEdge id="SequenceFlow_00ho26x_di" bpmnElement="SequenceFlow_00ho26x">\n' +
-        '        <di:waypoint x="402" y="284" />\n' +
-        '        <di:waypoint x="516" y="284" />\n' +
-        '      </bpmndi:BPMNEdge>\n' +
-        '      <bpmndi:BPMNEdge id="SequenceFlow_18df8vb_di" bpmnElement="SequenceFlow_18df8vb">\n' +
-        '        <di:waypoint x="616" y="284" />\n' +
-        '        <di:waypoint x="732" y="284" />\n' +
-        '      </bpmndi:BPMNEdge>\n' +
-        '      <bpmndi:BPMNEdge id="SequenceFlow_1wpxb98_di" bpmnElement="SequenceFlow_1wpxb98">\n' +
-        '        <di:waypoint x="214" y="284" />\n' +
-        '        <di:waypoint x="302" y="284" />\n' +
-        '      </bpmndi:BPMNEdge>\n' +
-        '    </bpmndi:BPMNPlane>\n' +
-        '  </bpmndi:BPMNDiagram>\n' +
-        '</bpmn:definitions>\n'
 
       // 将字符串转换成图显示出来
-      this.bpmnModeler.importXML(bpmnXmlStr, function (err) {
+      this.bpmnModeler.importXML(this.bpmnXmlStr, function (err) {
         if (err) {
           console.error(err)
         }
@@ -304,6 +214,11 @@ export default {
         link.href = 'data:application/bpmn20-xml;charset=UTF-8,' + encodedData
         link.download = name
       }
+    }
+  },
+  computed: {
+    bpmnXmlStr () {
+      return this.$store.state.bpmnXmlStr
     }
   },
   mounted () {
@@ -363,8 +278,9 @@ export default {
   .containers{
     position: absolute;
     background-color: #ffffff;
-    width: 80%;
+    width: 97%;
     height: 90%;
+    margin-right: 5px;
   }
   .canvas{
     padding: 0;
@@ -373,8 +289,36 @@ export default {
   .panel{
     position: absolute;
     right: 0;
-    top: 0;
+    top: -20px;
     width: 20%;
+    height: 100%;
+    padding-right: 20px
+  }
+  .layout{
+    border: 1px solid #d7dde4;
+    background: #f5f7f9;
+    position: relative;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .layout-logo{
+    width: 100px;
+    height: 30px;
+    background: #515a6e;
+    border-radius: 3px;
+    float: left;
+    position: relative;
+    top: 15px;
+    left: 20px;
+    color: #515a6e;
+  }
+  .layout-nav{
+    width: 220px;
+    margin: 0 auto;
+    margin-right: 20px;
+  }
+  .layout-footer-center{
+    text-align: center;
   }
   .buttons{
     position: absolute;

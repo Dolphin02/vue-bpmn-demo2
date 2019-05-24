@@ -6,21 +6,45 @@ import HealthCare2 from '../components/addListener'
 import nodeColor from '../components/nodecolor'
 import HeaderDiv from '@/components/header'
 import FooterDiv from '@/components/footer'
+import WorkFlow from '@/components/workflow'
+import MySideBar from '@/components/MySideBar'
+import PanelConfig from '@/components/panelConfig'
 
 Vue.use(Router)
 
 export default new Router({
   routes: [
     {
-      path: '/',
+      path: '/Helloworld',
       name: 'HelloWorld',
       component: HelloWorld
     },
     {
-      path: '/hh',
-      name: 'hhhh',
+      path: '/mySideBar',
+      name: 'mySideBar',
+      component: MySideBar
+    },
+    {
+      path: '/',
+      name: 'WorkFlow',
+      component: WorkFlow
+    },
+    {
+      path: '/config',
+      name: 'panelConfig',
+      component: PanelConfig
+    },
+    {
+      path: '/insurance',
+      name: 'Insurance',
       component: nodeColor
     },
+    {
+      path: '/click',
+      name: 'click',
+      component: HealthCare2
+    },
+
     {
       path: '/health',
       component: HealthCare,
