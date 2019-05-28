@@ -39,10 +39,36 @@
                     <Icon type="ios-navigate"></Icon>
                     线上服务
                   </template>
-                  <MenuItem name="workflow-1">体检服务</MenuItem>
-                  <MenuItem name="workflow-2">医疗服务</MenuItem>
+                  <Submenu name="1-1" >
+                    <template slot="title">
+                      个人信息
+                    </template>
+                    <MenuItem name="workflow-1">信息授权</MenuItem>
+                    <MenuItem name="workflow-3">信息获取</MenuItem>
+                  </Submenu>
+                  <Submenu name="1-2" >
+                    <template slot="title">
+                      医疗服务
+                    </template>
+                    <MenuItem name="workflow-1">在线问诊</MenuItem>
+                    <!--<MenuItem name="workflow-2">医疗服务</MenuItem>-->
+                    <MenuItem name="workflow-1">体检服务</MenuItem>
+                    <MenuItem name="workflow-3">药物清单</MenuItem>
+                  </Submenu>
+
                   <MenuItem name="workflow-3">预约挂号</MenuItem>
+                  <Submenu name="1-3" >
+                    <template slot="title">
+                      购买药物
+                    </template>
+                    <MenuItem name="workflow-1">药物列表</MenuItem>
+                    <MenuItem name="workflow-2">药物详情</MenuItem>
+                    <MenuItem name="workflow-3">下单</MenuItem>
+                    <MenuItem name="workflow-3">评价</MenuItem>
+                    <MenuItem name="workflow-3">退换货</MenuItem>
+                  </Submenu>
                 </Submenu>
+
                 <Submenu name="2">
                   <template slot="title">
                     <Icon type="ios-keypad"></Icon>
@@ -62,8 +88,8 @@
               </Menu>
             </Sider>
             <Content :style="{padding: '24px', minHeight: '570px', background: '#fff'}">
-              <div class="containers" ref="content" style="height: 480px; padding-right: 80px">
-                <div class="canvas" ref="canvas" style="height: 440px; width: 80%;margin-right: 80px" draggable="true"></div>
+              <div class="containers" ref="content" style="height: 570px; padding-right: 80px">
+                <div class="canvas" ref="canvas" style="height: 560px; width: 80%;margin-right: 80px" draggable="true"></div>
                 <!--<div id="js-properties-panel" class="panel" draggable="false"></div>-->
                 <ul class="buttons" style="height: 40px">
                   <li>download</li>
@@ -124,30 +150,7 @@ export default {
       })
       this.setBpmnXmlStr()
     },
-    // turnToConfig (route, ) {
-    //   let { name, params, query } = {}
-    //   if (typeof route === 'string') name = route
-    //   else {
-    //     console.log(route)
-    //     name = route.name
-    //     params = route.params
-    //     query = route.query
-    //   }
-    //   if (route in this.processHref){
-    //     console.log(route);
-    //     params = {"name":route};
-    //     query = {"name":name};
-    //     name = "click";
-    //   }
-    //   this.$router.push({
-    //     name,
-    //     params,
-    //     query,
-    //   })
-    //   this.bpmnModeler.saveXML({ format: true }, function (err, xml) {
-    //     done(err, xml)
-    //   })
-    // },
+
     turnToPage (route) {
       let { name, params, query } = {}
       if (typeof route === 'string') name = route
@@ -167,74 +170,8 @@ export default {
       let params = {
         id: this.id
       }
-      const bpmnXmlStr = '<?xml version="1.0" encoding="UTF-8"?>\n' +
-        '<bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_0fppxr8" targetNamespace="http://bpmn.io/schema/bpmn">\n' +
-        '  <bpmn:process id="Process_1" isExecutable="false">\n' +
-        '    <bpmn:startEvent id="StartEvent_1" name="begin;">\n' +
-        '      <bpmn:outgoing>SequenceFlow_0nrfbee</bpmn:outgoing>\n' +
-        '      <bpmn:outgoing>SequenceFlow_1wpxb98</bpmn:outgoing>\n' +
-        '    </bpmn:startEvent>\n' +
-        '    <bpmn:SubProcess id="Task_0ho18x0" name="个人信息">\n' +
-        '      <bpmn:incoming>SequenceFlow_0nrfbee</bpmn:incoming>\n' +
-        '      <bpmn:incoming>SequenceFlow_1wpxb98</bpmn:incoming>\n' +
-        '      <bpmn:outgoing>SequenceFlow_00ho26x</bpmn:outgoing>\n' +
-        '    </bpmn:SubProcess>\n' +
-        '    <bpmn:SubProcess id="Task_1ymuvem" name="医疗服务">\n' +
-        '      <bpmn:incoming>SequenceFlow_00ho26x</bpmn:incoming>\n' +
-        '      <bpmn:outgoing>SequenceFlow_18df8vb</bpmn:outgoing>\n' +
-        '    </bpmn:SubProcess>\n' +
-        '    <bpmn:endEvent id="EndEvent_1c0ed2n" name="end">\n' +
-        '      <bpmn:incoming>SequenceFlow_18df8vb</bpmn:incoming>\n' +
-        '    </bpmn:endEvent>\n' +
-        '    <bpmn:sequenceFlow id="SequenceFlow_0nrfbee" targetRef="Task_0ho18x0" />\n' +
-        '    <bpmn:sequenceFlow id="SequenceFlow_00ho26x" sourceRef="Task_0ho18x0" targetRef="Task_1ymuvem" />\n' +
-        '    <bpmn:sequenceFlow id="SequenceFlow_18df8vb" sourceRef="Task_1ymuvem" targetRef="EndEvent_1c0ed2n" />\n' +
-        '    <bpmn:sequenceFlow id="SequenceFlow_1wpxb98" sourceRef="StartEvent_1" targetRef="Task_0ho18x0" />\n' +
-        '  </bpmn:process>\n' +
-        '  <bpmndi:BPMNDiagram id="BPMNDiagram_1">\n' +
-        '    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">\n' +
-        '      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">\n' +
-        '        <dc:Bounds x="173" y="102" width="36" height="36" />\n' +
-        '        <bpmndi:BPMNLabel>\n' +
-        '          <dc:Bounds x="178" y="145" width="27" height="27" />\n' +
-        '        </bpmndi:BPMNLabel>\n' +
-        '      </bpmndi:BPMNShape>\n' +
-        '      <bpmndi:BPMNShape id="Task_0ho18x0_di" bpmnElement="Task_0ho18x0">\n' +
-        '        <dc:Bounds x="290" y="82" width="100" height="80" />\n' +
-        '      </bpmndi:BPMNShape>\n' +
-        '      <bpmndi:BPMNShape id="Task_1ymuvem_di" bpmnElement="Task_1ymuvem">\n' +
-        '        <dc:Bounds x="497" y="82" width="100" height="80" />\n' +
-        '      </bpmndi:BPMNShape>\n' +
-        '      <bpmndi:BPMNShape id="EndEvent_1c0ed2n_di" bpmnElement="EndEvent_1c0ed2n">\n' +
-        '        <dc:Bounds x="712" y="102" width="36" height="36" />\n' +
-        '        <bpmndi:BPMNLabel>\n' +
-        '          <dc:Bounds x="721" y="145" width="19" height="14" />\n' +
-        '        </bpmndi:BPMNLabel>\n' +
-        '      </bpmndi:BPMNShape>\n' +
-        '      <bpmndi:BPMNEdge id="SequenceFlow_0nrfbee_di" bpmnElement="SequenceFlow_0nrfbee">\n' +
-        '        <di:waypoint x="209" y="120" />\n' +
-        '        <di:waypoint x="347" y="120" />\n' +
-        '        <di:waypoint x="347" y="120" />\n' +
-        '        <di:waypoint x="485" y="120" />\n' +
-        '      </bpmndi:BPMNEdge>\n' +
-        '      <bpmndi:BPMNEdge id="SequenceFlow_00ho26x_di" bpmnElement="SequenceFlow_00ho26x">\n' +
-        '        <di:waypoint x="390" y="120" />\n' +
-        '        <di:waypoint x="497" y="120" />\n' +
-        '      </bpmndi:BPMNEdge>\n' +
-        '      <bpmndi:BPMNEdge id="SequenceFlow_18df8vb_di" bpmnElement="SequenceFlow_18df8vb">\n' +
-        '        <di:waypoint x="597" y="120" />\n' +
-        '        <di:waypoint x="712" y="120" />\n' +
-        '      </bpmndi:BPMNEdge>\n' +
-        '      <bpmndi:BPMNEdge id="SequenceFlow_1wpxb98_di" bpmnElement="SequenceFlow_1wpxb98">\n' +
-        '        <di:waypoint x="209" y="120" />\n' +
-        '        <di:waypoint x="290" y="120" />\n' +
-        '      </bpmndi:BPMNEdge>\n' +
-        '    </bpmndi:BPMNPlane>\n' +
-        '  </bpmndi:BPMNDiagram>\n' +
-        '</bpmn:definitions>\n'
-
       // 将字符串转换成图显示出来
-      this.bpmnModeler.importXML(this.bpmnXmlStr, function (err) {
+      this.bpmnModeler.importXML(this.xmlStr, function (err) {
         if (err) {
           console.error(err)
         }
@@ -332,6 +269,10 @@ export default {
     }
   },
 
+  created: function() {
+    this.xmlStr = this.bpmnXmlStr;
+    this.createNewDiagram(this.bpmnModeler)
+  },
   mounted: function () {
     // 获取到属性ref为“content”的dom节点
     this.container = this.$refs.content
@@ -357,6 +298,8 @@ export default {
     })
 
     this.createNewDiagram(this.bpmnModeler)
+    // this.xmlStr = this.bpmnXmlStr;
+
 
     // 下载画图
     let _this = this
@@ -376,13 +319,19 @@ export default {
       _this.turnToConfig(function (err, xml) {
         // _this.setEncoded(downloadLink, 'diagram.bpmn', err ? null : xml)
         _this.xmlStr = xml
-        console.log(_this.xmlStr)
+        // console.log(_this.xmlStr)
       })
       // _this.turnToPage(route, function (err, xml) {
       //   _this.setEncoded(downloadLink, 'diagram.bpmn', err ? null : xml)
       //   _this.xmlStr = xml;
       // })
     })
+
+    // this.turnToConfig(function (err, xml) {
+    //   // _this.setEncoded(downloadLink, 'diagram.bpmn', err ? null : xml)
+    //   _this.xmlStr = xml
+    //   // console.log(_this.xmlStr)
+    // })
 
 
   }

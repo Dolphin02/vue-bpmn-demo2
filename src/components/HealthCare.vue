@@ -152,6 +152,7 @@ export default {
   },
   methods: {
     turnToPage (route) {
+      // this.setBpmnXmlStr()
       let { name, params, query } = {}
       if (typeof route === 'string') name = route
       else {
@@ -214,6 +215,10 @@ export default {
         link.href = 'data:application/bpmn20-xml;charset=UTF-8,' + encodedData
         link.download = name
       }
+    },
+    setBpmnXmlStr: function () {
+      this.$store.state.bpmnXmlStr = this.xmlStr
+      // this.$store.state.commit('newAuthor', this.inputText)
     }
   },
   computed: {
