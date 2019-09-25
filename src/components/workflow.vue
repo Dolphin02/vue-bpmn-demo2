@@ -57,6 +57,7 @@
                   </Submenu>
 
                   <MenuItem name="workflow-3">预约挂号</MenuItem>
+                  <MenuItem name="workflow-3">医疗本</MenuItem>
                   <Submenu name="1-3" >
                     <template slot="title">
                       购买药物

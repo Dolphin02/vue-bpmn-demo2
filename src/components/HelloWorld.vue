@@ -34,6 +34,9 @@
               <el-menu-item index="1-1-3-5" class="baseMuse">高铁查询</el-menu-item>
               <el-menu-item index="1-1-3-6" class="baseMuse">飞机查询</el-menu-item>
             </el-submenu>
+            <el-submenu index="1-1-5">
+              <template slot="title">医疗本</template>
+            </el-submenu>
           </el-submenu>
           <el-submenu index="3">
             <template slot="title"><i class="el-icon-setting"></i>其他服务</template>
@@ -217,15 +220,6 @@ export default {
         // // let canvas = this.bpmnModeler.get('canvas');
         // _self.canvas = canvas
         // canvas.addMarker('StartEvent_1', 'highlight');
-
-
-
-
-
-
-
-
-
         const canvas = that.bpmnModeler.get('canvas');
         canvas.zoom('fit-viewport');
         // 就是在这里写死了
@@ -393,7 +387,7 @@ export default {
   .buttons{
     position: absolute;
     left: 10px;
-    bottom: 20px;
+    bottom: 0px;
     &>li{
       display:inline-block;margin: 5px;
       &>a{
